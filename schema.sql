@@ -14,4 +14,4 @@ timestamp timestamp,
 primary key (id)
 );
 
-
+ALTER TABLE animals ADD species varchar(30);
