@@ -61,5 +61,49 @@ FROM animals
 where date_of_birth between '19900101' and '20001231'
 group by species;
 
+SELECT ow.full_name AS "Owner", an.name AS "Animal"
+FROM owners ow 
+INNER JOIN animals AS an ON (an.id_owners = ow.id_owners)
+WHERE ow.full_name = 'Melody Pond';
+
+SELECT an.name AS "Animal Name", sp.name AS "Animal Specie"
+FROM species sp
+INNER JOIN animals AS an ON (an.id_species = sp.id_species)
+WHERE sp.name = 'Pokemon';
+
+SELECT ow.full_name AS "Owner", an.name AS "Animal", CASE WHEN an.id_owners IS NULL THEN 'Ownerless' END AS "Ownerless" 
+FROM owners ow 
+INNER JOIN animals AS an ON (an.id_owners = ow.id_owners);
+
+SELECT  COUNT(*) AS "Animals quantity", 
+        sp.name AS "Specie"
+FROM    species sp
+        INNER JOIN animals an
+            ON an.id_species = sp.id_species 
+GROUP   BY sp.name;
+
+SELECT ow.full_name AS "Owner", an.name AS "Animal"
+FROM owners ow 
+INNER JOIN animals AS an ON (an.id_owners = ow.id_owners)
+INNER JOIN species AS sp ON (sp.id_species = an.id_species )
+WHERE ow.full_name = 'Jennifer Orwell'
+AND sp.name = 'Digimon';
+
+SELECT ow.full_name AS "Owner", an.name AS "Animal"
+FROM owners ow 
+INNER JOIN animals AS an ON (an.id_owners = ow.id_owners)
+INNER JOIN species as sp ON (sp.id_species = an.id_species )
+WHERE ow.full_name = 'Dean Winchester'
+AND an.escape_attempts = 0;
+
+SELECT  COUNT(*) as "Animals quantity", 
+		ow.full_name as "Owner"
+FROM    species sp
+        INNER JOIN animals AS an ON (an.id_species = sp.id_species)
+        INNER JOIN owners AS ow ON (ow.id_owners = an.id_owners)
+GROUP   BY ow.full_name
+ORDER BY COUNT(*) DESC 
+LIMIT 1;
+
 
 
