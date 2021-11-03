@@ -105,5 +105,99 @@ GROUP   BY ow.full_name
 ORDER BY COUNT(*) DESC 
 LIMIT 1;
 
+SELECT  an.name AS "Pet Patient", age(current_date, an.date_of_birth) AS Age, 
+        ow.full_name AS "Owner", ve.name AS "Pet Vet", 
+        max(vi.date_of_visit) AS "Last Visit"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+WHERE ve.name = 'William Tatcher'
+GROUP BY an.name, an.date_of_birth, ow.full_name, ve.name, vi.date_of_visit
+ORDER BY vi.date_of_visit DESC
+LIMIT 1;
+
+SELECT count(*) AS "How many different animals did?"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+WHERE ve.name = 'Stephanie Mendez'
+
+SELECT ve.name AS "Vet Name", sp.name AS "Specialist in:"
+FROM vets AS ve
+LEFT JOIN specializations AS spec ON (spec.id_vets = ve.id_vets)
+LEFT JOIN species AS sp ON (sp.id_species = spec.id_species);
+
+SELECT an.name AS "Pet Patient", age(current_date, an.date_of_birth) AS Age, ow.full_name AS "Owner", ve.name AS "Pet Vet", max(vi.date_of_visit) AS "Last Visit"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+WHERE ve.name = 'Stephanie Mendez'
+AND vi.date_of_visit between '20200401' AND '20200830'
+GROUP BY an.name, an.date_of_birth, ow.full_name, ve.name, vi.date_of_visit
 
 
+SELECT an.name AS "Pet Name",
+	   age(current_date, an.date_of_birth) AS Age,
+       Count(DISTINCT id_visits) AS "Total of Visits",
+       ow.full_name AS "Owner", ve.name AS "Pet Vet"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+GROUP BY an.name, an.date_of_birth, ow.full_name,ve.name
+ORDER BY "Total of Visits" DESC
+LIMIT 1;
+
+SELECT an.name AS "Pet Patient", age(current_date, an.date_of_birth) AS Age, ow.full_name AS "Owner", ve.name AS "Pet Vet", max(vi.date_of_visit) AS "First Visit"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+WHERE ve.name = 'Maisy Smith'
+GROUP BY an.name, an.date_of_birth, ow.full_name, ve.name, vi.date_of_visit
+ORDER BY vi.date_of_visit
+LIMIT 1;
+
+SELECT an.name AS "Pet Patient", age(current_date, an.date_of_birth) AS Age, ow.full_name AS "Owner", ve.name AS "Pet Vet", max(vi.date_of_visit) AS "Last Visit"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+GROUP BY an.name, an.date_of_birth, ow.full_name, ve.name, vi.date_of_visit
+ORDER BY vi.date_of_visit DESC
+LIMIT 1;
+
+SELECT count(*) AS "How many visits each",
+		ve.name as "Vet Name",
+		sp.name as "Species:",
+		an.name AS "Pet Patient"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+LEFT JOIN specializations as spec on (spec.id_vets = ve.id_vets)
+WHERE spec.id_vets is null
+GROUP BY ve.name, sp.name, an.name
+
+SELECT count(sp.name) AS "How many calls?",
+		sp.name as "Specialty Suggestion:",
+		ve.name as "Vet Looking for specialty"
+FROM animals an
+JOIN owners AS ow ON (an.id_owners = ow.id_owners)
+JOIN species AS sp ON (sp.id_species = an.id_species)
+JOIN visits AS vi ON (vi.id_animals = an.id_animals)
+JOIN vets AS ve ON (ve.id_vets = vi.id_vets)
+LEFT JOIN specializations as spec on (spec.id_vets = ve.id_vets)
+WHERE spec.id_vets is null
+GROUP BY sp.name, ve.name
+LIMIT 1;
