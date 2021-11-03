@@ -15,3 +15,32 @@ primary key (id)
 );
 
 ALTER TABLE animals ADD species varchar(30);
+
+CREATE TABLE owners (
+id SERIAL,
+full_name VARCHAR(60) NOT NULL,
+age INT NOT NULL,
+user_name VARCHAR (45),
+timestamp TIMESTAMP,
+PRIMARY KEY (id));
+
+CREATE TABLE species (
+id SERIAL,
+name VARCHAR(45),
+user_name VARCHAR (45),
+timestamp TIMESTAMP,
+PRIMARY KEY (id)
+); 
+
+ALTER TABLE owners RENAME COLUMN id TO id_owners;
+
+ALTER TABLE species RENAME COLUMN id TO id_species;
+
+ALTER TABLE animals RENAME COLUMN id TO id_animals;
+
+ALTER TABLE animals DROP COLUMN species;
+
+ALTER TABLE animals 
+ADD COLUMN id_owners INTEGER REFERENCES owners (id_owners),
+ADD COLUMN id_species INTEGER REFERENCES species (id_species);
+
