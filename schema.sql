@@ -44,3 +44,31 @@ ALTER TABLE animals
 ADD COLUMN id_owners INTEGER REFERENCES owners (id_owners),
 ADD COLUMN id_species INTEGER REFERENCES species (id_species);
 
+CREATE TABLE vets (
+id_vets SERIAL,
+name VARCHAR(60),
+age INTEGER,
+date_of_graduation DATE,
+user_name VARCHAR (45),
+timestamp TIMESTAMP,
+PRIMARY KEY (id_vets)
+);
+
+CREATE TABLE specializations(
+id_specializations SERIAL,
+id_species INT REFERENCES species(id_species),
+id_vets INT REFERENCES vets(id_vets),
+user_name VARCHAR (45),
+timestamp TIMESTAMP,
+PRIMARY KEY(id_specializations)
+);
+
+CREATE TABLE visits(
+id_visits SERIAL,
+id_animals INT REFERENCES animals(id_animals),
+id_vets INT REFERENCES vets(id_vets),
+date_of_visit DATE,
+user_name VARCHAR (45),
+timestamp TIMESTAMP,
+PRIMARY KEY(id_visits)
+);
